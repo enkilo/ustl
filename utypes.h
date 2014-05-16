@@ -5,11 +5,13 @@
 
 #pragma once
 #include "config.h"
+#ifndef MAPIP
 #ifndef STDC_HEADERS
     #error "This library requires standard C and C++ headers to compile."
 #endif
 #ifndef STDUNIX_HEADERS
     #error "This library compiles only on UNIX systems."
+#endif
 #endif
 #define __STDC_LIMIT_MACROS	// For WCHAR_MIN and WCHAR_MAX in stdint.
 #define __STDC_CONSTANT_MACROS	// For UINT??_C macros to avoid using L and UL suffixes on constants.
@@ -23,14 +25,27 @@
 #if HAVE_SYS_TYPES_H
     #include <sys/types.h>
 #endif
+#ifdef MAPIP
+#include <ma.h>
+#include <macpp.h>
+#define __XPG_VISIBLE 1
+#undef DBL_DIG
+#define FLT_MIN __FLT_MIN__
+#define FLT_MAX __FLT_MAX__
+#define DBL_MIN __DBL_MIN__
+#define DBL_MAX __DBL_MAX__
+#define LDBL_MIN __LDBL_MIN__
+#define LDBL_MAX __LDBL_MAX__
+#else
 #include <stddef.h>		// For ptrdiff_t, size_t
-#include <limits.h>
 #include <float.h>
 #include <unistd.h>
+#endif
+#include <limits.h>
 #ifndef SIZE_MAX
     #define SIZE_MAX		UINT_MAX
 #endif
-#if sun || __sun		// Solaris defines UINTPTR_MAX as empty.
+#if sun || __sun || defined(MAPIP)		// Solaris defines UINTPTR_MAX as empty.
     #undef UINTPTR_MAX
     #define UINTPTR_MAX		ULONG_MAX
 #endif

@@ -10,7 +10,13 @@
 #include "utypes.h"
 #include "traits.h"
 #include "ulimits.h"
+
+#ifdef MAPIP
+#include <maassert.h>
+#define assert(a) MAASSERT(a)
+#else
 #include <assert.h>
+#endif
 
 namespace ustl {
 
