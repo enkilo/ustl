@@ -14,10 +14,11 @@
 namespace ustl {
 
 //----------------------------------------------------------------------
-
+#ifndef MAPIP
 ifstream cin  (STDIN_FILENO);
 ofstream cout (STDOUT_FILENO);
 ofstream cerr (STDERR_FILENO);
+#endif
 
 //----------------------------------------------------------------------
 
@@ -49,8 +50,10 @@ ofstream::ofstream (const char* filename, openmode mode)
 /// Default destructor.
 ofstream::~ofstream (void) noexcept
 {
+#ifndef MAPIP
     try { flush(); } catch (...) {}
     if (m_File.fd() <= STDERR_FILENO)	// Do not close cin,cout,cerr
+#endif
 	m_File.detach();
 }
 

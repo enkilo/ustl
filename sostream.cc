@@ -7,7 +7,12 @@
 #include "sostream.h"
 #include "ustring.h"
 #include "ulimits.h"
+
+#ifdef MAPIP
+#include <mavsprintf.h>
+#else
 #include <stdio.h>
+#endif
 
 namespace ustl {
 
@@ -125,7 +130,13 @@ int ostringstream::vformat (const char* fmt, va_list args)
     do {
 	space = remaining();
 	__va_copy (args2, args);
-	if (0 > (rv = vsnprintf (ipos(), space, fmt, args2)))
+	if (0 > 
+#ifdef MAPIP
+          (rv = vsprintf (ipos(), fmt, args2))
+#else
+          (rv = vsnprintf (ipos(), space, fmt, args2))
+#endif
+          )
 	    return (rv);
     } while (rv >= space && rv < (int)overflow(rv+1));
     SetPos (pos() + min (rv, space));

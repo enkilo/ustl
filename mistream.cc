@@ -16,7 +16,11 @@ namespace ustl {
 void ios_base::overrun (const char* op, const char* type, uint32_t n, uint32_t pos, uint32_t rem)
 {
     if (set_and_throw (rem ? failbit : (failbit | eofbit)))
+#ifdef MAPIP
+  maPanic(0, "ios_base::overrun");
+#else
 	throw stream_bounds_exception (op, type, pos, n, rem);
+#endif
 }
 
 //--------------------------------------------------------------------

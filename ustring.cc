@@ -7,7 +7,11 @@
 #include "mistream.h"
 #include "mostream.h"
 #include "ualgo.h"
+#ifdef MAPIP
+#include <mavsprintf.h>
+#else
 #include <stdio.h>	// for vsnprintf (in string::format)
+#endif
 
 namespace ustl {
 
@@ -330,7 +334,11 @@ int string::vformat (const char* fmt, va_list args)
     int rv = size(), wcap;
     do {
 	__va_copy (args2, args);
+#ifdef MAPIP
+	rv = vsprintf (data(), fmt, args2);
+#else
 	rv = vsnprintf (data(), wcap = memblock::capacity(), fmt, args2);
+#endif
 	resize (rv);
     } while (rv >= wcap);
     return (rv);

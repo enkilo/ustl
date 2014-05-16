@@ -28,8 +28,6 @@
 #ifdef MAPIP
 #include <ma.h>
 #include <macpp.h>
-#define __XPG_VISIBLE 1
-#undef DBL_DIG
 #define FLT_MIN __FLT_MIN__
 #define FLT_MAX __FLT_MAX__
 #define DBL_MIN __DBL_MIN__
@@ -45,7 +43,7 @@
 #ifndef SIZE_MAX
     #define SIZE_MAX		UINT_MAX
 #endif
-#if sun || __sun || defined(MAPIP)		// Solaris defines UINTPTR_MAX as empty.
+#if defined(sun) || defined(__sun) || defined(MAPIP)		// Solaris defines UINTPTR_MAX as empty.
     #undef UINTPTR_MAX
     #define UINTPTR_MAX		ULONG_MAX
 #endif
@@ -73,6 +71,12 @@ typedef size_t		uoff_t;		///< A type for storing offsets into blocks measured by
 typedef uint32_t	hashvalue_t;	///< Value type returned by the hash functions.
 typedef size_t		streamsize;	///< Size of stream data
 typedef uoff_t		streamoff;	///< Offset into a stream
+#ifdef MAPIP
+typedef long      off_t;
+typedef long      ssize_t;
+typedef size_t    uintptr_t;
+typedef int       mode_t;
+#endif
 
 #if !defined(UINTPTR_MAX) || !defined(UINT32_C)
     #error "If you include stdint.h before ustl.h, define __STDC_LIMIT_MACROS and __STDC_CONSTANT_MACROS first"

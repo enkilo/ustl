@@ -8,7 +8,11 @@
 #if HAVE_ALLOCA_H
     #include <alloca.h>
 #else
+#ifdef MAPIP
+    #include <mastdlib.h>
+#else
     #include <stdlib.h>
+#endif
 #endif
 #include "uiterator.h"
 #include "ulimits.h"

@@ -287,7 +287,7 @@ MMX_TUPLE_SPECS(8,uint8_t)
 #undef MMX_TUPLE_SPECS
 #endif
 
-#if __i386__ || __x86_64__
+#if defined(__i386__) || defined(__x86_64__)
 #define UINT32_TUPLE_SPECS(type,otype)		\
 template <> inline tuple<2,type>::tuple (void)	\
 { asm("":"+m"(m_v[0]),"+m"(m_v[1])::"memory");	\

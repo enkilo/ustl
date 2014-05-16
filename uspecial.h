@@ -190,7 +190,7 @@ ostringstream& operator<< (ostringstream& os, const matrix<NX,NY,T>& v)
 class _long4grain {
 public:
     inline	_long4grain (uint64_t v)	: m_v (v) {}
-#if __x86_64__
+#ifdef __x86_64__
     inline void	read (istream& is)
     {
 	assert (is.aligned(4));

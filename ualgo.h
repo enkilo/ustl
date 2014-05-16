@@ -7,7 +7,12 @@
 #include "upair.h"
 #include "ufunction.h"
 #include "umemory.h"
+
+#ifdef MAPIP
+#include <mastdlib.h>
+#else
 #include <stdlib.h>	// for rand()
+#endif
 
 namespace ustl {
 
