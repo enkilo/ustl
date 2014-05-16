@@ -135,8 +135,9 @@ ifstream::size_type ifstream::underflow (size_type n)
 	m_Buffer.resize (br + neededFreeSpace);
 	link (m_Buffer.data(), streamsize(0));
     }
+#ifndef MAPIP
     cout.flush();
-
+#endif
     size_type brn = 1;
     for (; br < oldPos + n && brn && m_File.good(); br += brn)
 	brn = m_File.readsome (m_Buffer.begin() + br, m_Buffer.size() - br);

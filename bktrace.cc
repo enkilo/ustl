@@ -63,7 +63,9 @@ static size_t ExtractAbiName (const char* isym, char* nmbuf) noexcept
     }
     nmbuf[nmSize] = 0;
     // Demangle
+#ifndef MAPIP
     demangle_type_name (nmbuf, 255U, &nmSize);
+#endif
     return (nmSize);
 }
 
