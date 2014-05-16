@@ -340,7 +340,7 @@ inline uoff_t FirstBit (uint32_t v, uoff_t nbv)
 #if defined(__i386__) || defined(__x86_64__)
     if (!__builtin_constant_p(v)) asm ("bsr\t%1, %k0":"+r,r"(n):"r,m"(v)); else
 #endif
-#if __GNUC__
+#if defined(__GNUC__) && !defined(MAPIP)
     if (v) n = 31 - __builtin_clz(v);
 #else
     if (v) for (uint32_t m = uint32_t(1)<<(n=31); !(v & m); m >>= 1) --n;
@@ -354,7 +354,7 @@ inline uoff_t FirstBit (uint64_t v, uoff_t nbv)
 #ifdef __x86_64__
     if (!__builtin_constant_p(v)) asm ("bsr\t%1, %0":"+r,r"(n):"r,m"(v)); else
 #endif
-#if __GNUC__
+#if defined(__GNUC__) && !defined(MAPIP)
     if (v) n = 63 - __builtin_clzl(v);
 #else
     if (v) for (uint64_t m = uint64_t(1)<<(n=63); !(v & m); m >>= 1) --n;
@@ -380,6 +380,8 @@ inline T Rol (T v, size_t n)
 {
 #if defined(__i386__) || defined(__x86_64__)
     if (!(__builtin_constant_p(v) && __builtin_constant_p(n))) asm("rol\t%b1, %0":"+r,r"(v):"i,c"(n)); else
+        a
+        a
 #endif
     v = (v << n) | (v >> (BitsInType(T)-n));
     return (v);
