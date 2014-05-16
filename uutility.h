@@ -337,7 +337,7 @@ inline bool TestAndSet (int* pm)
 inline uoff_t FirstBit (uint32_t v, uoff_t nbv)
 {
     uoff_t n = nbv;
-#if __i386__ || __x86_64__
+#if defined(__i386__) || defined(__x86_64__)
     if (!__builtin_constant_p(v)) asm ("bsr\t%1, %k0":"+r,r"(n):"r,m"(v)); else
 #endif
 #if __GNUC__
@@ -351,7 +351,7 @@ inline uoff_t FirstBit (uint32_t v, uoff_t nbv)
 inline uoff_t FirstBit (uint64_t v, uoff_t nbv)
 {
     uoff_t n = nbv;
-#if __x86_64__
+#ifdef __x86_64__
     if (!__builtin_constant_p(v)) asm ("bsr\t%1, %0":"+r,r"(n):"r,m"(v)); else
 #endif
 #if __GNUC__
@@ -367,7 +367,7 @@ inline uoff_t FirstBit (uint64_t v, uoff_t nbv)
 inline uint32_t NextPow2 (uint32_t v)
 {
     uint32_t r = v-1;
-#if __i386__ || __x86_64__
+#if defined(__i386__) || defined(__x86_64__)
     if (!__builtin_constant_p(r)) asm("bsr\t%0, %0":"+r"(r)); else
 #endif
     { r = FirstBit(r,r); if (r >= BitsInType(r)-1) r = uint32_t(-1); }
@@ -378,7 +378,7 @@ inline uint32_t NextPow2 (uint32_t v)
 template <typename T>
 inline T Rol (T v, size_t n)
 {
-#if __i386__ || __x86_64__
+#if defined(__i386__) || defined(__x86_64__)
     if (!(__builtin_constant_p(v) && __builtin_constant_p(n))) asm("rol\t%b1, %0":"+r,r"(v):"i,c"(n)); else
 #endif
     v = (v << n) | (v >> (BitsInType(T)-n));
@@ -389,7 +389,7 @@ inline T Rol (T v, size_t n)
 template <typename T>
 inline T Ror (T v, size_t n)
 {
-#if __i386__ || __x86_64__
+#if defined(__i386__) || defined(__x86_64__)
     if (!(__builtin_constant_p(v) && __builtin_constant_p(n))) asm("ror\t%b1, %0":"+r,r"(v):"i,c"(n)); else
 #endif
     v = (v >> n) | (v << (BitsInType(T)-n));

@@ -6,7 +6,12 @@
 #pragma once
 #include "memblock.h"
 #include "utf8.h"
+
+#ifdef MAPIP
+#include <maarg.h>
+#else
 #include <stdarg.h>	// for va_list, va_start, and va_end (in string::format)
+#endif
 
 namespace ustl {
 

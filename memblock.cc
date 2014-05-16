@@ -93,7 +93,11 @@ void memblock::reserve (size_type newSize, bool bExact)
 	newSize = alignedSize;
     pointer newBlock = (pointer) realloc (oldBlock, newSize);
     if (!newBlock)
+#ifdef MAPIP
+  maPanic(0,"bad_alloc");
+#else
 	throw bad_alloc (newSize);
+#endif
     if (!oldBlock & (cdata() != NULL))
 	copy_n (cdata(), min (size() + 1, newSize), newBlock);
     link (newBlock, size());
@@ -106,8 +110,12 @@ void memblock::shrink_to_fit (void)
     if (is_linked())
 	return;
     pointer newBlock = (pointer) realloc (begin(), size());
-    if (!newBlock)
+    if (!newBlock && size())
+#ifdef MAPIP
+  maPanic(0,"bad_alloc");
+#else
 	throw bad_alloc (size());
+#endif
     m_Capacity = size();
 }
 

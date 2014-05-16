@@ -16,9 +16,9 @@
 /// data in a separate step. It slows down stream operations a lot,
 /// but it is your decision. By default only debug builds throw.
 ///
-#define WANT_STREAM_BOUNDS_CHECKING 1
+#define WANT_STREAM_BOUNDS_CHECKING 0
 
-#if !WANT_STREAM_BOUNDS_CHECKING && !defined(NDEBUG)
+#if !defined(WANT_STREAM_BOUNDS_CHECKING) // && !defined(NDEBUG)
     #define WANT_STREAM_BOUNDS_CHECKING 1
 #endif
 
@@ -28,7 +28,7 @@
 /// even more). By default only the debug build does this.
 #define WANT_NAME_DEMANGLING 0
 
-#if !WANT_NAME_DEMANGLING && !defined(NDEBUG)
+#if !defined(WANT_NAME_DEMANGLING) && !defined(NDEBUG)
     #define WANT_NAME_DEMANGLING 1
 #endif
 
@@ -56,12 +56,14 @@
 #endif
 #if __cplusplus >= 201103L && (!__GNUC__ || (__clang_major__ > 3 || (__clang_major__ == 3 && __clang_minor__ >= 2)) || (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)))
     #define HAVE_CPP11 1
+#else
+    #define HAVE_CPP11 0
 #endif
 #if !HAVE_CPP11
     #define noexcept		throw()
     #define constexpr
 #endif
-#if __GNUC__ >= 3 && (__i386__ || __x86_64__)
+#if __GNUC__ >= 3 && (defined(__i386__) || defined(__x86_64__))
     /// GCC 3+ supports the prefetch directive, which some CPUs use to improve caching
     #define prefetch(p,rw,loc)	__builtin_prefetch(p,rw,loc)
 #else
@@ -87,13 +89,13 @@
 
 /// gcc has lately decided that inline is just a suggestion
 /// Define to 1 if when you say 'inline' you mean it!
-#undef WANT_ALWAYS_INLINE
+#define WANT_ALWAYS_INLINE 0
 #if WANT_ALWAYS_INLINE
     #define inline INLINE inline
 #endif
 
 /// Define to 1 if you have the <assert.h> header file.
-#undef HAVE_ASSERT_H
+#define HAVE_ASSERT_H 0
 
 /// Define to 1 if you have the <ctype.h> header file.
 #undef HAVE_CTYPE_H
@@ -102,7 +104,7 @@
 #undef HAVE_ERRNO_H
 
 /// Define to 1 if you have the <fcntl.h> header file.
-#undef HAVE_FCNTL_H
+#define HAVE_FCNTL_H 0
 
 /// Define to 1 if you have the <float.h> header file.
 #undef HAVE_FLOAT_H
@@ -117,13 +119,13 @@
 #undef HAVE_LOCALE_H
 
 // Define to 1 if you have the <alloca.h> header file.
-#undef HAVE_ALLOCA_H
+#define HAVE_ALLOCA_H 0
 
 // Define to 1 if you have the <signal.h> header file.
 #undef HAVE_SIGNAL_H
 
 // Define to 1 if you have the __va_copy function
-#undef HAVE_VA_COPY
+#define HAVE_VA_COPY 0
 
 // Define to 1 if you have the <stdarg.h> header file.
 #undef HAVE_STDARG_H
@@ -153,10 +155,10 @@
 #undef HAVE_SYS_STAT_H
 
 // Define to 1 if you have the <sys/types.h> header file.
-#undef HAVE_SYS_TYPES_H
+#define HAVE_SYS_TYPES_H 0
 
 // Define to 1 if you have the <sys/mman.h> header file.
-#undef HAVE_SYS_MMAN_H
+#define HAVE_SYS_MMAN_H 0
 
 // Define to 1 if you have the <time.h> header file.
 #undef HAVE_TIME_H
@@ -168,7 +170,7 @@
 #undef HAVE_MATH_H
 
 // Define to 1 if you have the <execinfo.h> header file.
-#undef HAVE_EXECINFO_H
+#define HAVE_EXECINFO_H 0
 
 // Define to 1 if you have the <cxxabi.h> header file.
 #if __GNUC__ >= 3
@@ -193,19 +195,19 @@
 
 // Define to 1 if your compiler treats char as a separate type along with
 // signed char and unsigned char. This will create overloads for char.
-#undef HAVE_THREE_CHAR_TYPES
+#define HAVE_THREE_CHAR_TYPES 0
 
 // Define to 1 if you have 64 bit types available
-#undef HAVE_INT64_T
+#define HAVE_INT64_T 0
 
 // Define to 1 if you have the long long type
-#define HAVE_LONG_LONG 1
+#define HAVE_LONG_LONG 0
 
 // Define to 1 if you want unrolled specializations for fill and copy
 #define WANT_UNROLLED_COPY 1
 
 // Define to 1 if you want to use MMX/SSE/3dNow! processor instructions
-#define WANT_MMX 1
+#define WANT_MMX 0
 
 // Define to byte sizes of types
 #define SIZE_OF_CHAR 1
@@ -239,10 +241,13 @@
 #undef CPU_HAS_FXSAVE
 #define CPU_HAS_SSE  1
 #define CPU_HAS_SSE2 1
-#undef CPU_HAS_SSE3
+#define CPU_HAS_SSE 0
 #undef CPU_HAS_EXT_3DNOW
-#undef CPU_HAS_3DNOW
+#else
+#define CPU_HAS_MMX 0
 #endif
+#define CPU_HAS_3DNOW 0
+#define CPU_HAS_SSE 0
 
 // GCC vector extensions
 #if (CPU_HAS_MMX || CPU_HAS_SSE) && __GNUC__ >= 3

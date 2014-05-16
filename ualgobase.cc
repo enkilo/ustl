@@ -15,7 +15,7 @@ namespace ustl {
 template <typename T> static inline void stosv (T*& p, size_t n, T v)
     { while (n--) *p++ = v; }
 
-#if __i386__ || __x86_64__
+#if defined(__i386__) || defined(__x86_64__)
 
 //----------------------------------------------------------------------
 // Copy functions

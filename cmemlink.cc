@@ -18,7 +18,11 @@ namespace ustl {
 void cmemlink::link (const void* p, size_type n)
 {
     if (!p && n)
+#ifdef MAPIP
+  maPanic(0,"bad_alloc @ cmemlink::link");
+#else
 	throw bad_alloc (n);
+#endif
     unlink();
     relink (p, n);
 }

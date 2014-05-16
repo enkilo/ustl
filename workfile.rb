@@ -27,9 +27,11 @@ mod.instance_eval do
 		@SOURCES = ["."]
 		@EXTRA_INCLUDES = ["."]
 		@INSTALL_INCDIR = "ustl"
-    @EXTRA_CFLAGS += " -DHAVE_STDINT_H=1 -fno-exceptions -fno-rtti "
+    #@EXTRA_CFLAGS += " -DHAVE_STDINT_H=1 -fno-exceptions -fno-rtti "
+    @EXTRA_CFLAGS += " "
 		@NAME = "ustl"
-    @IGNORED_FILES += [""]
+    #@IGNORED_FILES += ["ustdxept.cc","unew.cc","uexception.cc","fstream.cc"]
+    @IGNORED_FILES += ["ustdxept.cc","unew.cc","uexception.cc"]
 	end
 end
 

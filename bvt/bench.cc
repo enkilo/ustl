@@ -11,7 +11,7 @@ using namespace ustl;
 // Copy functions
 //----------------------------------------------------------------------
 
-#if __i386__ || __x86_64__
+#if defined(__i386__) || defined(__x86_64__)
 extern "C" void movsb_copy (const char* src, size_t nBytes, char* dest)
 {
     asm volatile ("rep\tmovsb":"+S"(src),"+D"(dest):"c"(nBytes):"memory");
@@ -22,7 +22,7 @@ extern "C" void movsd_copy (const char* src, size_t nBytes, char* dest)
     asm volatile ("rep\tmovsl":"+S"(src),"+D"(dest):"c"(nBytes/4):"memory");
 }
 
-#if __x86_64__
+#ifdef __x86_64__
 extern "C" void movsq_copy (const char* src, size_t nBytes, char* dest)
 {
     asm volatile ("rep\tmovsq":"+S"(src),"+D"(dest):"c"(nBytes/8):"memory");
@@ -147,7 +147,7 @@ extern "C" void memset_fill (char* dest, size_t nBytes, char v)
     memset (dest, v, nBytes);
 }
 
-#if __i386__ || __x86_64__
+#if defined(__i386__) || defined(__x86_64__)
 extern "C" void stosb_fill (char* dest, size_t nBytes, char v)
 {
     asm volatile (
@@ -270,7 +270,7 @@ int main (void)
 {
     cout << "Testing fill" << endl;
     cout << "---------------------------------------------------------" << endl;
-#if __i386__ || __x86_64__
+#if defined(__i386__) || defined(__x86_64__)
 #if CPU_HAS_SSE
     TestFillFunction ("sse_fill\t", &sse_fill);
 #endif
@@ -288,7 +288,7 @@ int main (void)
     cout << endl;
     cout << "Testing copy" << endl;
     cout << "---------------------------------------------------------" << endl;
-#if __i386__ || __x86_64__
+#if defined(__i386__) || defined(__x86_64__)
 #if CPU_HAS_SSE
     TestCopyFunction ("sse_copy\t", &sse_copy);
 #endif
@@ -297,7 +297,7 @@ int main (void)
 #endif
     TestCopyFunction ("movsb_copy\t", &movsb_copy);
     TestCopyFunction ("movsd_copy\t", &movsd_copy);
-#if __x86_64__
+#ifdef __x86_64__
     TestCopyFunction ("movsq_copy\t", &movsq_copy);
 #endif
     TestCopyFunction ("risc_copy\t", &risc_copy);

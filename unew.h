@@ -7,7 +7,8 @@
 #include "uexception.h"
 #ifdef MAPIP
 #include <maheap.h>
-#define WITHOUT_LIBSTDCPP 1
+#undef WITHOUT_LIBSTDCPP
+#define WITHOUT_LIBSTDCPP 0
 #else
 #include <stdlib.h>
 #endif
