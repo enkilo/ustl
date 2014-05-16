@@ -5,7 +5,12 @@
 
 #pragma once
 #include "uexception.h"
+#ifdef MAPIP
+#include <maheap.h>
+#define WITHOUT_LIBSTDCPP 1
+#else
 #include <stdlib.h>
+#endif
 
 /// Just like malloc, but throws on failure.
 void* tmalloc (size_t n) throw (ustl::bad_alloc) __attribute__((malloc));
@@ -39,5 +44,5 @@ inline void  operator delete  (void*, void*) noexcept	{ }
 inline void  operator delete[](void*, void*) noexcept	{ }
 
 #else
-#include <new>
+#include <macpp.h>
 #endif	// WITHOUT_LIBSTDCPP

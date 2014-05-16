@@ -5,7 +5,12 @@
 
 #pragma once
 #include "ulimits.h"
+
+#ifdef MAPIP
+#include <maheap.h>
+#else
 #include <stdlib.h>
+#endif
 
 namespace ustl {
 

@@ -5,7 +5,12 @@
 
 #pragma once
 #include "uutility.h"
+
+#ifdef MAPIP
+#include <mastring.h>
+#else
 #include <string.h>
+#endif
 
 namespace ustl {
 

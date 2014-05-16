@@ -10,6 +10,9 @@
     #include <new>
 #endif
 #include "bktrace.h"
+#ifndef PATH_MAX
+#define PATH_MAX 1024
+#endif
 
 #if WITHOUT_LIBSTDCPP
 namespace std {
