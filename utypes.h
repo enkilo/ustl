@@ -28,10 +28,9 @@
 #ifdef MAPIP
 #include <ma.h>
 #include <macpp.h>
+#include <madmath.h>
 #define FLT_MIN __FLT_MIN__
 #define FLT_MAX __FLT_MAX__
-#define DBL_MIN __DBL_MIN__
-#define DBL_MAX __DBL_MAX__
 #define LDBL_MIN __LDBL_MIN__
 #define LDBL_MAX __LDBL_MAX__
 #else
