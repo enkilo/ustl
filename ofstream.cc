@@ -6,10 +6,13 @@
 #include "ofstream.h"
 #include "ustring.h"
 #include "uexception.h"
+
+#ifndef MAPIP
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdarg.h>
+#endif
 
 namespace ustl {
 

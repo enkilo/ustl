@@ -29,9 +29,8 @@ inline size_t Utf8Bytes (wchar_t v) __attribute__((const));
 inline size_t Utf8Bytes (const wchar_t* first, const wchar_t* last) __attribute__((pure));
 inline size_t Utf8SequenceBytes (wchar_t c) __attribute__((const));
 
+static const uint32_t Utf8_c_Bounds[7] = { 0x0000007F, 0x000007FF, 0x0000FFFF, 0x001FFFFF, 0x03FFFFFF, 0x7FFFFFFF, 0xFFFFFFFF };
 //----------------------------------------------------------------------
-
-static const uint32_t c_Bounds[7] = { 0x0000007F, 0x000007FF, 0x0000FFFF, 0x001FFFFF, 0x03FFFFFF, 0x7FFFFFFF, 0xFFFFFFFF };
 
 /// Returns the number of bytes required to UTF-8 encode \p v.
 inline size_t Utf8Bytes (wchar_t v)
@@ -45,7 +44,7 @@ inline size_t Utf8Bytes (wchar_t v)
 	    "add\t$4, %0\n\t"
 	    "div\t%3":"=a"(n),"+d"(r):"r"(v),"c"(5));
     #else
-	for (n = 0; c_Bounds[n++] < uint32_t(v););
+	for (n = 0; Utf8_c_Bounds[n++] < uint32_t(v););
     #endif
     return (n);
 }
