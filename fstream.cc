@@ -234,8 +234,13 @@ off_t fstream::write (const void* p, off_t n)
 	const off_t bw (n - btw);
 	ssize_t bwn; 
 #ifdef MAPIP
-      if((bwn = maFileWrite(m_fd, advance(p,bw), btw)) >= 0)
-          bwn = btw;
+	if(m_fd == (int)&maWriteLog) {
+		if((bwn = maWriteLog(advance(p,bw),btw)) >= 0)
+			bwn = btw;
+	} else {
+		if((bwn = maFileWrite(m_fd, advance(p,bw), btw)) >= 0)
+			bwn = btw;
+	}
 #else
       bwn = ::write (m_fd, advance(p,bw), btw);
 #endif

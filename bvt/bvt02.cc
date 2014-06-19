@@ -5,7 +5,7 @@
 
 #include "stdtest.h"
 
-void WriteCML (const memblock& l)
+static void WriteCML (const memblock& l)
 {
     cout.format ("memblock{%zu}: ", l.size());
     const char* pc = reinterpret_cast<const char*>(l.cdata());

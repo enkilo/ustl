@@ -109,12 +109,13 @@ VPATH = $(OUTPUT_DIR):.
 vpath $(OUTPUT_DIR) .
 
 SOURCES = bktrace.cc cmemlink.cc fstream.cc memblock.cc memlink.cc mistream.cc ofstream.cc sistream.cc sostream.cc ualgobase.cc ubitset.cc unew.cc ustring.cc
-SOURCES += bvt/bvt00.cc bvt/bvt01.cc bvt/bvt02.cc bvt/bvt03.cc bvt/bvt04.cc bvt/bvt05.cc bvt/bvt06.cc bvt/bvt07.cc bvt/bvt08.cc bvt/bvt09.cc bvt/bvt10.cc bvt/bvt11.cc bvt/bvt12.cc bvt/bvt13.cc bvt/bvt14.cc bvt/bvt15.cc bvt/bvt16.cc bvt/bvt17.cc bvt/bvt18.cc bvt/bvt19.cc bvt/bvt20.cc bvt/bvt21.cc bvt/bvt22.cc bvt/bvt23.cc bvt/bvt24.cc bvt/bvt25.cc bvt/bvt26.cc bvt/bvt27.cc bvt/bvt28.cc bvt/MAMain.cc bvt/stdtest.cc
+SOURCES += bvt/bvt00.cc bvt/bvt01.cc bvt/bvt02.cc bvt/bvt03.cc bvt/bvt04.cc bvt/bvt06.cc bvt/bvt07.cc bvt/bvt08.cc bvt/bvt09.cc bvt/bvt10.cc bvt/bvt11.cc bvt/bvt12.cc bvt/bvt13.cc bvt/bvt14.cc bvt/bvt16.cc bvt/bvt17.cc bvt/bvt18.cc bvt/bvt19.cc bvt/bvt20.cc bvt/bvt21.cc bvt/bvt22.cc bvt/bvt23.cc bvt/bvt24.cc bvt/bvt25.cc bvt/bvt26.cc bvt/bvt27.cc bvt/bvt28.cc bvt/MAMain.cc
+#SOURCES +=  bvt/bvt05.cc bvt/bvt15.cc
 HEADERS = $(wildcard *.h) 
 ASMSRCS = $(patsubst %.cc,$(OUTPUT_DIR)/%.$(OBJEXT),$(notdir $(SOURCES)))
 OBJECTS = $(patsubst %.cc,$(OUTPUT_DIR)/%.o,$(notdir $(SOURCES)))
 PREPROCESSED = $(patsubst %.cc,$(OUTPUT_DIR)/%.e,$(notdir $(SOURCES)))
-CLEANFILES = $(ASMSRCS) $(ALL_APKS) $(OUTPUT_DIR)/resources/LocalFiles.bin $(OUTPUT_DIR)/program $(OUTPUT_DIR)/resources $(OUTPUT_DIR)/resources.deps
+CLEANFILES = $(ASMSRCS) $(ALL_APKS) $(OUTPUT_DIR)/res/LocalFiles.bin $(OUTPUT_DIR)/program $(OUTPUT_DIR)/resources $(OUTPUT_DIR)/resources.deps
 
 define NL
 
@@ -138,14 +139,22 @@ depend: $(SOURCES)
 $(OUTPUT_DIR):
 	mkdir -p $@
 
-Resources/LocalFiles.bin: $(wildcard LocalFiles/*)
-	$(BUNDLE) -in LocalFiles -out "$@"
-
 nbuild:
 	$(NBUILDCMD)
 
 link: $(OUTPUT_DIR) $(OUTPUT_DIR)/program
- 
+
+res/LocalFiles.bin: $(wildcard bvt/bvt*.cc)
+	$(BUNDLE) -in bvt -out "$@"
+
+#$(OUTPUT_DIR)/resources: res/MAHeaders.h | $(OUTPUT_DIR)
+#$(OUTPUT_DIR)/resources.deps: res/res.lst res/MAHeaders.h | $(OUTPUT_DIR)
+$(OUTPUT_DIR)/resources $(OUTPUT_DIR)/resources.deps res/MAHeaders.h: res/res.lst res/LocalFiles.bin  | $(OUTPUT_DIR)
+#MAHeaders.h: res/res.lst res/LocalFiles.bin 
+	$(RM) res/MAHeaders.h
+	(cd res; $(PIPE_TOOL) -appcode=YSYW -R -depend="../$(OUTPUT_DIR)/resources.deps" "../$(OUTPUT_DIR)/resources" res.lst LocalFiles.bin)
+	touch $@
+
 $(OUTPUT_DIR)/program: $(ASMSRCS)
 	$(PIPE_TOOL) $(PIPE_FLAGS) -s"$(MOSYNCDIR)/lib/${TARGET}_${CONFIG}" -B "$(CURRENT_DIR)/$@" $^ $(LIBS) || { rm -f $(OUTPUT_DIR)/program; exit 1; }
 
@@ -164,7 +173,7 @@ endif
 		-t platform \
 		-p "$(CURRENT_DIR)/$(OUTPUT_DIR)/program" \
 		-r "$(CURRENT_DIR)/$(OUTPUT_DIR)/resources" \
-		-i "$(CURRENT_DIR)/$(PROJECT).icon" \
+		-i "$(CURRENT_DIR)/res/$(PROJECT).icon" \
 		-d "$(CURRENT_DIR)/$(OUTPUT_DIR)" \
 		-m "$(PLATFORM)/$(PLATFORM)" \
 		--vendor BuiltWithMoSyncSDK \

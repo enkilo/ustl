@@ -5,7 +5,7 @@
 
 #include "stdtest.h"
 
-void WriteCML (const cmemlink& l)
+static void WriteCML (const cmemlink& l)
 {
     cout.format ("cmemlink{%zu}: ", l.size());
     const void* pv = l.cdata();

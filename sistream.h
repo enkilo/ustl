@@ -134,10 +134,14 @@ ISTRSTREAM_CAST_OPERATOR (float,	double)
 #if HAVE_THREE_CHAR_TYPES
 ISTRSTREAM_CAST_OPERATOR (char,		int8_t)
 #endif
+#ifdef MAPIP
+ISTRSTREAM_CAST_OPERATOR (int,	int32_t)
+ISTRSTREAM_CAST_OPERATOR (unsigned int,	int32_t)
+#endif
 #if HAVE_INT64_T
 ISTRSTREAM_CAST_OPERATOR (uint64_t,	int64_t)
 #endif
-#if SIZE_OF_LONG == SIZE_OF_INT
+#if !defined(MAPIP) && SIZE_OF_LONG == SIZE_OF_INT
 ISTRSTREAM_CAST_OPERATOR (long,		int)
 ISTRSTREAM_CAST_OPERATOR (unsigned long,int)
 #endif

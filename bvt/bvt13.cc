@@ -7,20 +7,28 @@
 // This file is free software, distributed under the MIT License.
 
 #include "stdtest.h"
+#ifdef MAPIP
+#include <maapi.h>
+#else
 #include <stdio.h>
+#endif
 
 void TestCoutCinCerr (void)
 {
     string testStr;
+#ifndef MAPIP
     cin >> testStr;
     if (testStr != "//") {
 	cout.format ("You must put bvt13.cc on stdin (read \"%s\")\n", testStr.c_str());
 	return;
     }
+#endif
     uint32_t n1 = 0, n3 = 0;
     uint16_t n2 = 0;
     double f1 = 0.0;
+#ifndef MAPIP    
     cin >> testStr >> n1 >> n2 >> n3 >> f1;
+#endif
     cout << testStr << endl;
     cout << "A string printed to stdout\n";
     cout.format ("%d %s: %d, %hd, 0x%08X, %1.15f\n", 4, "numbers", n1, n2, n3, f1);
@@ -29,7 +37,11 @@ void TestCoutCinCerr (void)
     for (int i = 0; i < 3; ++ i)
 	cout << testString;
     cout.flush();
-    fprintf (stderr, "All ");
+#ifdef MAPIP
+    maWriteLog ("All ", 4);
+#else
+    fprintf(stderr, "All ");
+#endif
     cerr << "done.\n";
 }
 

@@ -25,11 +25,12 @@ void TestBitset (void)
     cout << bs1 << endl;
 
     bs1.reset();
+ #ifndef MAPIP
     string comment;	// See line 0 in this file
     cin >> comment >> bs1;
     cout << bs1 << endl;
     cout.format ("count = %zu\n", bs1.count());
-
+#endif
     bs1.reset();
     cout << bs1;
     static const char tf[2][6] = { "false", "true" };

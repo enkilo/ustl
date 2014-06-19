@@ -7,7 +7,9 @@
 #include "ustring.h"
 #include "uexception.h"
 
-#ifndef MAPIP
+#ifdef MAPIP
+#include <maapi.h>
+#else
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
@@ -17,7 +19,10 @@
 namespace ustl {
 
 //----------------------------------------------------------------------
-#ifndef MAPIP
+#ifdef MAPIP
+ofstream cout ((int)&maWriteLog);
+ofstream cerr ((int)&maWriteLog);
+#else
 ifstream cin  (STDIN_FILENO);
 ofstream cout (STDOUT_FILENO);
 ofstream cerr (STDERR_FILENO);
