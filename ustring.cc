@@ -331,16 +331,21 @@ int string::vformat (const char* fmt, va_list args)
     #undef __va_copy
     #define __va_copy(x,y)
 #endif
+
+#ifdef MAPIP
+  int rv;
+  resize(256);
+	__va_copy (args2, args);
+	rv = vsprintf (data(), fmt, args2);
+	resize(rv);
+#else
     int rv = size(), wcap;
     do {
 	__va_copy (args2, args);
-#ifdef MAPIP
-	rv = vsprintf (data(), fmt, args2);
-#else
 	rv = vsnprintf (data(), wcap = memblock::capacity(), fmt, args2);
-#endif
 	resize (rv);
     } while (rv >= wcap);
+#endif
     return (rv);
 }
 

@@ -9,7 +9,9 @@
 #include "sostream.h"
 #include "strmsize.h"
 #include "uspecial.h"
+#ifndef MAPIP
 #include <errno.h>
+#endif
 
 #if HAVE_CXXABI_H && WANT_NAME_DEMANGLING
 extern "C" char* __cxa_demangle (const char* mangled_name, char* output_buffer, size_t* length, int* status);
@@ -107,6 +109,7 @@ namespace ustl {
 #endif
 //----------------------------------------------------------------------
 
+#ifdef NEWLIB
 /// Initializes the empty object. \p operation is the function that returned the error code.
 libc_exception::libc_exception (const char* operation) noexcept
 : exception(),
@@ -160,6 +163,7 @@ size_t libc_exception::stream_size (void) const noexcept
 	    stream_size_of(m_Errno) +
 	    stream_size_of(m_Operation));
 }
+#endif
 
 //----------------------------------------------------------------------
 
