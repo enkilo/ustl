@@ -4,7 +4,9 @@
 // This file is free software, distributed under the MIT License.
 
 #include "stdtest.h"
+#ifndef MAPIP
 #include <unistd.h>
+#endif
 
 void TestStreams (void)
 {
