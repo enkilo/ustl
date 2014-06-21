@@ -7,9 +7,7 @@
 #include "ustring.h"
 #include "uexception.h"
 
-#ifdef MAPIP
-#include <maapi.h>
-#else
+#ifndef MAPIP
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
@@ -19,10 +17,7 @@
 namespace ustl {
 
 //----------------------------------------------------------------------
-#ifdef MAPIP
-ofstream cout ((int)&maWriteLog);
-ofstream cerr ((int)&maWriteLog);
-#else
+#ifndef MAPIP
 ifstream cin  (STDIN_FILENO);
 ofstream cout (STDOUT_FILENO);
 ofstream cerr (STDERR_FILENO);
@@ -78,6 +73,7 @@ ofstream& ofstream::flush (void)
 {
     clear();
     while (good() && pos() && overflow (remaining())) ;
+    m_File.sync();
     clear (m_File.rdstate());
     return (*this);
 }
@@ -162,6 +158,7 @@ int ifstream::sync (void)
 {
     istringstream::sync();
     underflow (0U);
+    m_File.sync();
     clear (m_File.rdstate());
     return (-good());
 }

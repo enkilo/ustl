@@ -5,7 +5,7 @@
 
 #include "stdtest.h"
 
-static void WriteCML (const cmemlink& l)
+void WriteCML (const cmemlink& l)
 {
     cout.format ("memlink{%zu}: ", l.size());
     const char* pc = reinterpret_cast<const char*>(l.cdata());

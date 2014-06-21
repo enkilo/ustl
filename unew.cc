@@ -9,6 +9,6 @@ void* tmalloc (size_t n) throw (ustl::bad_alloc)
 {
     void* p = malloc (n);
     if (!p)
-	maPanic(0, "ustl::bad_alloc");
+	throw ustl::bad_alloc (n);
     return (p);
 }

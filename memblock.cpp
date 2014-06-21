@@ -119,7 +119,6 @@ void memblock::shrink_to_fit (void)
 	throw bad_alloc (size());
 #endif
     m_Capacity = size();
-    memlink::relink (newBlock, size());
 }
 
 /// Shifts the data in the linked block from \p start to \p start + \p n.

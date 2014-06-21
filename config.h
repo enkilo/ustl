@@ -195,7 +195,7 @@
 
 // Define to 1 if your compiler treats char as a separate type along with
 // signed char and unsigned char. This will create overloads for char.
-#define HAVE_THREE_CHAR_TYPES 1
+#define HAVE_THREE_CHAR_TYPES 0
 
 // Define to 1 if you have 64 bit types available
 #define HAVE_INT64_T 0
@@ -213,10 +213,10 @@
 #define SIZE_OF_CHAR 1
 #define SIZE_OF_SHORT 2
 #define SIZE_OF_INT 4
-#define SIZE_OF_LONG 4
+#define SIZE_OF_LONG 8
 #define SIZE_OF_LONG_LONG 8
-#define SIZE_OF_POINTER 4
-#define SIZE_OF_SIZE_T 4
+#define SIZE_OF_POINTER 8
+#define SIZE_OF_SIZE_T 8
 #define SIZE_OF_BOOL SIZE_OF_CHAR
 #define SIZE_T_IS_LONG 1
 
@@ -226,16 +226,16 @@
 #define USTL_BYTE_ORDER		USTL_LITTLE_ENDIAN
 
 // Extended CPU capabilities
-#define CPU_HAS_FPU 0
-#define CPU_HAS_EXT_DEBUG 0
-#define CPU_HAS_TIMESTAMPC 0
-#define CPU_HAS_MSR 0
-#define CPU_HAS_CMPXCHG8 0
-#define CPU_HAS_APIC 0
-#define CPU_HAS_SYSCALL 0
-#define CPU_HAS_MTRR 0
-#define CPU_HAS_CMOV 0
-#define CPU_HAS_FCMOV 0
+#define CPU_HAS_FPU 1
+#define CPU_HAS_EXT_DEBUG 1
+#define CPU_HAS_TIMESTAMPC 1
+#define CPU_HAS_MSR 1
+#define CPU_HAS_CMPXCHG8 1
+#define CPU_HAS_APIC 1
+#define CPU_HAS_SYSCALL 1
+#define CPU_HAS_MTRR 1
+#define CPU_HAS_CMOV 1
+#define CPU_HAS_FCMOV 1
 #if WANT_MMX
 #define CPU_HAS_MMX 1
 #undef CPU_HAS_FXSAVE

@@ -209,7 +209,7 @@ string::iterator string::erase (const_iterator ep, size_type n)
 /// Erases \p n bytes at byte offset \p epo.
 string& string::erase (size_type epo, size_type n)
 {
-    erase (iat(epo), min (n, size()-epo));
+    erase (iat(epo), n);
     return (*this);
 }
 
@@ -321,6 +321,7 @@ string::size_type string::find_last_not_of (const string& s, size_type pos) cons
     return (npos);
 }
 
+#ifndef MAPIP
 /// Equivalent to a vsprintf on the string.
 int string::vformat (const char* fmt, va_list args)
 {
@@ -331,20 +332,20 @@ int string::vformat (const char* fmt, va_list args)
     #undef __va_copy
     #define __va_copy(x,y)
 #endif
-
 #ifdef MAPIP
-  int rv;
-  resize(256);
-	__va_copy (args2, args);
-	rv = vsprintf (data(), fmt, args2);
-	resize(rv);
+    size_t rv = 1024;
+    reserve(rv);
+    rv = vsprintf(data(), fmt, args2);
+    resize(rv);
 #else
-    int rv = size(), wcap;
+    size_t rv = size();
     do {
+	reserve (rv);
 	__va_copy (args2, args);
-	rv = vsnprintf (data(), wcap = memblock::capacity(), fmt, args2);
-	resize (rv);
-    } while (rv >= wcap);
+	rv = vsnprintf (data(), memblock::capacity(), fmt, args2);
+	rv = min (rv, memblock::capacity());
+    } while (rv > capacity());
+    resize (min (rv, capacity()));
 #endif
     return (rv);
 }
@@ -358,6 +359,7 @@ int string::format (const char* fmt, ...)
     va_end (args);
     return (rv);
 }
+#endif
 
 /// Returns the number of bytes required to write this object to a stream.
 size_t string::stream_size (void) const noexcept

@@ -10,7 +10,7 @@
     <meta name="Description" content="API and usage description for uSTL, a size-optimized STL implementation" />
     <meta name="Keywords" content="C++, STL, template, bloat, optimization" />
     <meta name="author" content="Mike Sharov" />
-    <meta name="date" content="2013-11-14" />
+    <meta name="date" content="2011-03-16" />
 </head>
 <body>
 
@@ -52,7 +52,7 @@ it's the sight of clean, concise, and fast code. Therefore this library.
     <li><a href="#Algorithms">Algorithms</a></li>
     <li><a href="#Memblocks">Memblock and Memlink</a></li>
     <li><a href="#Streams">Streams</a></li>
-    <li><a href="#Arrays">Arrays</a></li>
+    <li><a href="#Tuples">Tuples</a></li>
     <li><a href="#Exceptions">Exceptions</a></li>
     <li><a href="#Savings">Template Bloat Be Gone</a></li>
     <li><a href="#Contact">Bug reporting</a></li>
@@ -65,10 +65,10 @@ under gcc 2.95, some features require at least gcc 3.4 and are simply
 turned off with an older version. The minimum requirement to enable
 C++11 features is gcc 4.6 or clang 3.2.
 </p><p>
-The latest version of uSTL can always be downloaded from its GitHub
-<a href="https://github.com/msharov/ustl/releases/latest">release page</a>.
+The latest version of uSTL can always be downloaded from its SourceForge
+<a href="https://sourceforge.net/projects/ustl/files/">project files page</a>.
 If you like living dangerously, you can pull the working branch directly from
-<a href="https://github.com/msharov/ustl">git@github.com:msharov/ustl.git</a>.
+<a href="https://sourceforge.net/p/ustl/code/?branch=ref%2Fmaster">git://git.code.sf.net/p/ustl/code</a>.
 The mainline source should build on any unix-based system, including
 Linux, BSD, MacOS, SunOS, and Solaris. Windows-based systems and embedded
 platforms, are not, and will not be supported by the mainline. However,
@@ -301,15 +301,15 @@ write a little functor for all your iterative tasks:
 class CCompareAndReplace {
 public:
     CCompareAndReplace (int minValue, int maxValue, int badValue)
-	: _minValue (minValue), _maxValue (maxValue), _badValue (badValue) {}
+	: m_MinValue (minValue), m_MaxValue (maxValue), m_BadValue (badValue) {}
     void operator (int&amp; v) {
-	if (v &lt; _minValue || v &gt; _maxValue)
-	    v = _badValue;
+	if (v &lt; m_MinValue || v &gt; m_MaxValue)
+	    v = m_BadValue;
     }
 private:
-    int _minValue;
-    int _maxValue;
-    int _badValue;
+    int m_MinValue;
+    int m_MaxValue;
+    int m_BadValue;
 };
 
 for_each (v.begin(), v.end(), CCompareAndReplace (5, 10, 99));
@@ -514,23 +514,23 @@ size_t CMyClass::stream_size (void) const
 
 } // namespace myns
 </pre>
-<h2><a name="Arrays">Arrays</a></h2>
+<h2><a name="Tuples">Tuples</a></h2>
 <p>
-One last container I'll mention is <code>array</code>, which is
-a fixed-size array of identical elements. There is also the older
-version of this called <code>tuple</code>, with template parameters
-in reversed order, written for uSTL before C++11 came out with
-<code>array</code>. These classes are good for graphical objects like
-points, sizes, rectangles, triangles, etc. tuples have SIMD instruction
-optimizations, which may or may not be a benefit. Any C-style fixed
-size-array works better as one of these, since it becomes a standard
-STL container, which you can use with any algorithm, copy by assignment,
-initialize in the constructor, etc.
+One last container I'll mention is a <code>tuple</code>, which is a
+fixed-size array of identical elements. No, it's not the same as the tuple
+in boost, which is more like a template-defined struct. This one should
+have been named "array", which is what it will be called in the next STL
+standard, but I guess I'm stuck with the name now. What are they good
+for? Graphical objects. Points, sizes, rectangles, triangles, etc. As a
+bonus, operations on tuples can automatically use SIMD instructions if
+they are available. Any fixed size-array also works better as a tuple,
+since it becomes a standard STL container, which you can use with any
+algorithm, copy by assignment, initialize in the constructor, etc.
 </p><pre>
-typedef short int coord_t;
+typedef int32_t			coord_t;
 typedef tuple&lt;2, coord_t&gt;	Point2d;
 typedef tuple&lt;2, coord_t&gt;	Size2d;
-typedef array&lt;Point2d, 2&gt;	Rect;
+typedef tuple&lt;2, Point2d&gt;	Rect;
 
 Rect r (Point2d (1,2), Point2d (3,4));
 r += Size2d (4, 4);
@@ -717,8 +717,20 @@ examples are compiled with this option.
 </p>
 <h2><a name="Contact">Bug reporting</a></h2>
 <p>
-Report bugs through the
-<a href="https://github.com/msharov/ustl/issues">project issue tracker</a>.
+Report bugs through the SourceForge.net
+<a href="http://sourceforge.net/projects/ustl">uSTL project page</a> with the
+standard bugtracker.
 </p>
+<hr />
+<div class="sffooter">
+    <a href="http://validator.w3.org/check?uri=referer">
+	<img src="style/valid-xhtml10.png"
+	    height="31" width="88" alt="Valid XHTML 1.0!" />
+    </a>
+    <a href="http://sourceforge.net">
+	<img src="http://sourceforge.net/sflogo.php?group_id=76798&amp;type=4"
+	    width="127" height="37" alt="Hosted on SourceForge.net" />
+    </a> 
+</div>
 </body>
 </html>

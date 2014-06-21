@@ -71,7 +71,6 @@ public:
     inline			string (const_pointer s, size_type len);
     inline			string (const_pointer s1, const_pointer s2);
 				string (size_type n, value_type c);
-    inline			~string (void) noexcept		{ }
     inline pointer		data (void)			{ return (string::pointer (memblock::data())); }
     inline const_pointer	data (void) const		{ return (string::const_pointer (memblock::data())); }
     inline const_pointer	c_str (void) const		{ return (string::const_pointer (memblock::cdata())); }

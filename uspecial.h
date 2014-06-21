@@ -10,7 +10,6 @@
 #include "umultiset.h"
 #include "ubitset.h"
 #include "ulaalgo.h"
-#include "uarray.h"
 #include "uctralgo.h"
 #include "ufunction.h"
 #include "uctrstrm.h"

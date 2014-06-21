@@ -18,7 +18,7 @@ namespace ustl {
 error_message::error_message (const char* arg) noexcept
 : m_Arg ()
 {
-    /*try {*/ m_Arg = arg; //} catch (...) {}
+    try { m_Arg = arg; } catch (...) {}
     set_format (xfmt_ErrorMessage);
 }
 
@@ -31,7 +31,7 @@ error_message::~error_message (void) noexcept
 void error_message::info (string& msgbuf, const char* fmt) const noexcept
 {
     if (!fmt) fmt = "%s: %s";
-    /*try {*/ msgbuf.format (fmt, name(), m_Arg.cdata()); //} catch (...) {}
+    try { msgbuf.format (fmt, name(), m_Arg.cdata()); } catch (...) {}
 }
 
 /// Reads the object from stream \p is.

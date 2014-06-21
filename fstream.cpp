@@ -115,7 +115,7 @@ void fstream::detach (void) noexcept
     else
 	flags = ((m&(in|out))==(in|out)) ? O_RDWR : ((m&out) ? O_WRONLY : O_RDONLY);
     for (uoff_t i = 0; i < VectorSize(s_OMFlags); ++ i)
-	flags |= s_OMFlags[i] & (!(m&(1<<i))-1);
+	flags |= s_OMFlags[i] & (!(m & (1 << i)) - 1);
     if (m & nocreate)
 	flags &= ~O_CREAT;
 #endif
@@ -234,13 +234,8 @@ off_t fstream::write (const void* p, off_t n)
 	const off_t bw (n - btw);
 	ssize_t bwn; 
 #ifdef MAPIP
-	if(m_fd == (int)&maWriteLog) {
-		if((bwn = maWriteLog(advance(p,bw),btw)) >= 0)
-			bwn = btw;
-	} else {
-		if((bwn = maFileWrite(m_fd, advance(p,bw), btw)) >= 0)
-			bwn = btw;
-	}
+      if((bwn = maFileWrite(m_fd, advance(p,bw), btw)) >= 0)
+          bwn = btw;
 #else
       bwn = ::write (m_fd, advance(p,bw), btw);
 #endif
