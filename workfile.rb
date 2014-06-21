@@ -31,7 +31,7 @@ mod.instance_eval do
     @EXTRA_CFLAGS += " "
 		@NAME = "ustl"
     #@IGNORED_FILES += ["ustdxept.cc","unew.cc","uexception.cc","fstream.cc"]
-    @IGNORED_FILES += ["ustdxept.cc","unew.cc","uexception.cc"]
+    @IGNORED_FILES += ["MAMain.cpp","ustdxept.cc","unew.cc","uexception.cc"]
 	end
 end
 
