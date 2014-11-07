@@ -8,7 +8,9 @@
 #include "ualgo.h"
 #include "umemory.h"
 #include "fstream.h"
+#ifndef MAPIP
 #include <errno.h>
+#endif
 
 namespace ustl {
 

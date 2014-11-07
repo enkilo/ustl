@@ -128,13 +128,19 @@ int ostringstream::vformat (const char* fmt, va_list args)
     #define __va_copy(x,y)
 #endif
     size_t rv, space;
-    do {
+#ifdef MAPIP
 	space = remaining();
 	__va_copy (args2, args);
+	rv = vsprintf(ipos(), fmt, args2);
+#else
+    do {
+    	space = remaining();
+    	__va_copy (args2, args);
 	rv = vsnprintf (ipos(), space, fmt, args2);
 	if (ssize_t(rv) < 0)
 	    rv = space;
     } while (rv >= space && rv < overflow(rv + 1));
+#endif
     SetPos (pos() + min (rv, space));
     return (rv);
 }

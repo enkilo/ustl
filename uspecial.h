@@ -14,7 +14,11 @@
 #include "ufunction.h"
 #include "uctrstrm.h"
 #include "sistream.h"
+#ifdef MAPIP
+#include <mactype.h>
+#else
 #include <ctype.h>
+#endif
 
 namespace ustl {
 
