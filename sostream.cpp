@@ -116,6 +116,7 @@ void ostringstream::iwrite (bool v)
     write (tf[v], 5 - v);
 }
 
+#ifndef MAPIP
 /// Equivalent to a vsprintf on the string.
 int ostringstream::vformat (const char* fmt, va_list args)
 {
@@ -143,6 +144,7 @@ int ostringstream::vformat (const char* fmt, va_list args)
     SetPos (pos() + min (rv, space));
     return (rv);
 }
+#endif
 
 /// Equivalent to a sprintf on the string.
 int ostringstream::format (const char* fmt, ...)
